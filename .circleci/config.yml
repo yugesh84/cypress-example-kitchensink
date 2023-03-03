@@ -166,6 +166,29 @@ jobs:
           at: ~/
       - run: npm run semantic-release
 
+  cypress-run-all-tests:
+    executor: browsers 
+    steps:
+      - checkout
+        #- run: 
+        # name: install dependencies 
+        # command: apt update && apt --yes --force-yes install nodejs npm libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libxtst6 xauth xvfb
+            #- run:
+            #name: build test plugin and copy to test dir
+            #command: go build && chmod +x tests-plugin-cli && cp tests-plugin-cli cypress  
+      - run:
+          name: run tests
+          command: | 
+            cd ./cypress 
+            npm ci 
+            npm run start &
+            # npx cypress run --config-file=cypress.config.js
+            npm run e2e -- --env circle=true
+            #circleci tests glob "cypress/**/*.cy.js" | ./tests-plugin-cli --command="xargs npx cypress run --reporter cypress-multi-reporters --reporter-options configFile=reporter-config.json --spec"
+            #node ./scripts/fix-junit.js
+
+      - store_test_results:
+          path: cypress/results/junit
 workflows:
   win-build:
     jobs:
@@ -179,9 +202,8 @@ workflows:
 
   linux-build:
     jobs:
-      # checks out code and installs dependencies once
-      # runs on 3 machines, load balances tests
-      # and records on Cypress Dashboard
+      - cypress-run-all-tests
+
       - cypress/run:
           name: '3 machines'
           post-install: 'npm run build'
