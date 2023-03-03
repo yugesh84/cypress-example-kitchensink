@@ -207,14 +207,14 @@ workflows:
           name: '2 machines using Chrome'
           start-command: 'npm run start'
           install-browsers: true
-          cypress-command: 'npx cypress run --browser chrome --parallel --group 2x-chrome on CircleCI'
+          cypress-command: 'npx cypress run --browser chrome'
           parallelism: 2
 
       - cypress/run:
           name: '2 machines using Firefox'
           start-command: 'npm run start'
           install-browsers: true
-          cypress-command: 'npx cypress run --browser firefox --parallel --group 2x-firefox on CircleCI'
+          cypress-command: 'npx cypress run --browser firefox'
           parallelism: 2
 
       - release:
