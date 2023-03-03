@@ -25,6 +25,13 @@ executors:
   browsers:
     docker:
       - image: 'cypress/browsers:node14.16.0-chrome90-ff88'
+  cypress:
+    docker:
+      - image: cypress/browsers:node14.16.0-chrome90-ff88
+        auth:
+          username: $RO_DOCKER_HUB_USERNAME
+          password: $RO_DOCKER_HUB_PASSWORD
+    resource_class: large
 
 jobs:
   win-test:
@@ -167,7 +174,7 @@ jobs:
       - run: npm run semantic-release
 
   cypress-run-all-tests:
-    executor: browsers 
+    executor: cypress 
     steps:
       - checkout
         #- run: 
