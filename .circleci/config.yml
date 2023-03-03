@@ -57,7 +57,7 @@ jobs:
 
       - run:
           name: 'Run Cypress tests'
-          command: npm run e2e:record -- --env circle=true
+          command: npm run e2e -- --env circle=true
           no_output_timeout: '1m'
       - store_artifacts:
           path: cypress\screenshots
@@ -97,7 +97,7 @@ jobs:
 
       - run:
           name: 'Run Cypress tests'
-          command: npm run e2e:record:chrome -- --env circle=true
+          command: npm run e2e:chrome -- --env circle=true
           no_output_timeout: '1m'
       - store_artifacts:
           path: cypress\screenshots
@@ -137,7 +137,7 @@ jobs:
 
       - run:
           name: 'Run Cypress tests'
-          command: npm run e2e:record:firefox -- --env circle=true
+          command: npm run e2e:firefox -- --env circle=true
           no_output_timeout: '1m'
       - store_artifacts:
           path: cypress\screenshots
@@ -156,7 +156,7 @@ jobs:
       - run: npx cypress info
       - cypress/run-tests:
           start-command: 'npm run start'
-          cypress-command: 'npx cypress run --record --group Mac build'
+          cypress-command: 'npx cypress run --group Mac build'
 
 
   release:
@@ -186,7 +186,7 @@ workflows:
           name: '3 machines'
           post-install: 'npm run build'
           start-command: 'npm run start'
-          cypress-command: 'npx cypress run --record --parallel --group 3x-electron on CircleCI'
+          cypress-command: 'npx cypress run --parallel --group 3x-electron on CircleCI'
           parallelism: 3
           post-steps:
             # show Cypress cache folder and binary versions
@@ -207,14 +207,14 @@ workflows:
           name: '2 machines using Chrome'
           start-command: 'npm run start'
           install-browsers: true
-          cypress-command: 'npx cypress run --browser chrome --record --parallel --group 2x-chrome on CircleCI'
+          cypress-command: 'npx cypress run --browser chrome --parallel --group 2x-chrome on CircleCI'
           parallelism: 2
 
       - cypress/run:
           name: '2 machines using Firefox'
           start-command: 'npm run start'
           install-browsers: true
-          cypress-command: 'npx cypress run --browser firefox --record --parallel --group 2x-firefox on CircleCI'
+          cypress-command: 'npx cypress run --browser firefox --parallel --group 2x-firefox on CircleCI'
           parallelism: 2
 
       - release:
